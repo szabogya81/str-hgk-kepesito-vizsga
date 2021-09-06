@@ -309,6 +309,10 @@ components:
           type: string
         zipcode:
           type: number
+        classrooms:
+          type: array
+          items:
+            type: string
     Error:
       type: object
       required:
