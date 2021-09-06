@@ -1,12 +1,14 @@
-/**
- * @TODO service kapcsolat és CRUD műveletek a  Mongoose modellek segítségével
- */
-exports.create = () => {};
+const Model = require('../../models/classroom.model');
 
-exports.findAll = () => {};
+exports.create = requestData => {
+    const entity = new Model(requestData);
+    return entity.save();
+};
 
-exports.findOne = id => {};
+exports.findAll = () => Model.find().populate();
 
-exports.update = () => {};
+exports.findOne = id => Model.findById(id).populate();
 
-exports.delete = () => {};
+exports.update = (id, updateData) => Model.findByIdAndUpdate(id, updateData, { new: true });
+
+exports.delete = id => Model.findByIdAndRemove(id);
