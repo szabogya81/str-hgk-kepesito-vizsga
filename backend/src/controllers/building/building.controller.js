@@ -10,9 +10,31 @@
  */
 
 const httpError = require('http-errors');
+const Model = require('../../models/building.model');
+const service = require('./building.service');
 
+exports.updateBuilding = (req, res, next) => {
+  const { buildingId, className } = req.body;
 
-exports.updateBuilding = (req, res, next) => {}
+  console.log(req.body);
 
+  if ( !buildingId || !className ) {
+    return next(new httpError.BadRequest("Missing field"))
+  }
 
-exports.getAllBuildingWithClassrooms = () => {};
+  return service.update(buildingId, className)
+        .then(entity => {
+            res.json(entity);
+        })
+        .catch(err => {
+            console.log(err);
+            next(new createError.InternalServerError('Building could not updated'));
+        });
+}
+
+exports.getAllBuildingWithClassrooms = (req, res, next) => {
+  return service.getAll()
+      .then(list => {
+          res.json(list);
+      });
+};
